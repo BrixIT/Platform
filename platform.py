@@ -1,11 +1,13 @@
 from flask import Flask
+from flask.ext.mako import MakoTemplates, render_template
 
 app = Flask(__name__)
+mako = MakoTemplates(app)
 
 
 @app.route('/')
 def hello_world():
-    return 'Hello World!'
+    return render_template('hello.html')
 
 
 if __name__ == '__main__':
