@@ -1,4 +1,5 @@
-from flask import Flask
+from flask import Flask, session, redirect, url_for, escape, request
+
 from flask.ext.mako import MakoTemplates, render_template
 
 app = Flask(__name__)
@@ -6,8 +7,8 @@ mako = MakoTemplates(app)
 
 
 @app.route('/')
-def hello_world():
-    return render_template('hello.html')
+def index():
+    return render_template('index.html')
 
 
 if __name__ == '__main__':
