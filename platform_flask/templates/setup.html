@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Platform</title>
+    <link rel="stylesheet" href="/static/style/style.css">
+</head>
+<body>
+<div class="container">
+    <h1 class="text-center">Welcome to Platform!</h1>
+
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
+            <p>
+                To start using Platform you first need to create an user to login. This login will be your main admin
+                account for this server. After this set-up you will be able to create more users to access this server.
+            </p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-4 col-sm-offset-4">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <form method="post">
+                        <div class="form-group">
+                            <label for="registerFirstname">First name</label>
+                            <input type="text" class="form-control" id="registerFirstname" placeholder="First name"
+                                   name="firstname">
+                        </div>
+                        <div class="form-group">
+                            <label for="registerLastname">Last name</label>
+                            <input type="text" class="form-control" id="registerLastname" placeholder="Last name"
+                                   name="lastname">
+                        </div>
+                        <div class="form-group">
+                            <label for="registerEmail">Email address</label>
+                            <input type="email" class="form-control" id="registerEmail" placeholder="Enter email"
+                                   name="email">
+                        </div>
+                        <div class="form-group">
+                            <label for="registerPassword">Password</label>
+                            <input type="password" class="form-control" id="registerPassword"
+                                   name="password">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Get started!</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

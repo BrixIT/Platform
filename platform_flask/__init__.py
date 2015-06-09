@@ -10,8 +10,8 @@ db.init_app(app)
 
 app.secret_key = 'development key'
 
-from platform_flask.routes import mako
+#from platform_flask.routes import mako
 
-mako.init_app(app)
+#mako.init_app(app)
 
 import platform_flask.routes
