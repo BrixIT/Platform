@@ -14,7 +14,7 @@ def index():
 
     if 'user' not in session:
         return redirect(url_for('login'))
-    return render_template('login.html')
+    return render_template('base.html')
 
 
 @app.route('/setup', methods=['GET', 'POST'])
@@ -41,6 +41,7 @@ def login():
         user = User.query.filter_by(email=request.form['email'].lower()).first()
         if user and user.check_password(request.form['password']):
             session['user'] = request.form['email']
+            session['username'] = "{} {}".format(user.firstname, user.lastname)
         return redirect(url_for('index'))
     return render_template('login.html')
 

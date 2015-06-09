@@ -10,8 +10,8 @@ db.init_app(app)
 
 app.secret_key = 'development key'
 
-#from platform_flask.routes import mako
+from platform_flask.jinjafilters import gravatar
 
-#mako.init_app(app)
+app.jinja_env.filters['gravatar'] = gravatar
 
 import platform_flask.routes
