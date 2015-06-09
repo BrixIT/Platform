@@ -1,3 +1,3 @@
 .idea/
-static/vendor/
-
+app/static/vendor/
+platform.db
