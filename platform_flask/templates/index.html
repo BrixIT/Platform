@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">Backends</div>
+                <table class="table table-bordered">
+                    {% for backend in backends %}
+                        <tr>
+                            {% if backend.status == 0 %}
+                                <td width="20"><span class="glyphicon glyphicon-fire text-danger"></span></td>
+                            {% endif %}
+                            {% if backend.status == 1 %}
+                                <td width="20"><span class="glyphicon glyphicon-warning-sign text-warning"></span></td>
+                            {% endif %}
+                            {% if backend.status == 2 %}
+                                <td width="20"><span class="glyphicon glyphicon-ok-sign text-success"></span></td>
+                            {% endif %}
+                            <td>{{ backend.label }}</td>
+                        </tr>
+                        {% if backend.status < 2 %}
+                            <tr>
+                                <td colspan="2">{{ backend.message }}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+
+        <div class="col-sm-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">Running tasks</div>
+                <table class="table table-bordered" id="tasks">
+                    <tr>
+                        <td id="tasks-spinner">Loading...</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        $(function () {
+            $.get('/ajax/get-queue', function (data) {
+                $('#tasks-spinner').hide();
+                $.each(data.response, function (i, item) {
+                    var $tr = $('<tr>').append(
+                            $('<td>').text(item.label)
+                    );
+                    $tr.appendTo('#tasks');
+                });
+            })
+        });
+    </script>
+{% endblock %}

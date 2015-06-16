@@ -1,20 +1,44 @@
 from platform_flask import app
-from flask import Flask, session, redirect, url_for, request, flash, render_template
-# from flask.ext.mako import MakoTemplates, render_template
-from platform_flask.models import db, User
+from flask import Flask, session, redirect, url_for, request, flash, render_template, jsonify
+from platform_flask.models import db, User, Configuration
 import os
-
-# mako = MakoTemplates()
+from celery.task.control import inspect
 
 
 @app.route('/')
 def index():
+    db.create_all()
     if not os.path.isfile('/opt/platform/platform.db') or os.path.getsize('/opt/platform/platform.db') == 0:
         return redirect(url_for('setup'))
 
     if 'user' not in session:
         return redirect(url_for('login'))
-    return render_template('base.html')
+
+
+    return render_template('index.html')
+
+@app.route('/ajax/get-queue')
+def ajax_get_queue():
+    labels = {
+        'platform_flask.backend_git.git_clone_task': 'Cloning git repository'
+    }
+    celery_inspector = inspect()
+    active = celery_inspector.active()
+    response = []
+    for host in active:
+        for message in active[host]:
+            message_id = message['id']
+            name = message['name']
+            label = labels[name]
+            args = message['args']
+            response.append({
+                'id': message_id,
+                'name': name,
+                'args': args,
+                'label': label,
+                'host': host
+            })
+    return jsonify(response=response)
 
 
 @app.route('/setup', methods=['GET', 'POST'])
