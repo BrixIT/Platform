@@ -1,4 +1,5 @@
 from platform_flask import app
+from platform_flask import celery as celery_instance
 from flask import Flask, session, redirect, url_for, request, flash, render_template, jsonify
 from platform_flask.models import db, User, Configuration, Repository
 import os
@@ -79,8 +80,14 @@ def logout():
     session.pop('user', None)
     return redirect(url_for('index'))
 
-
-@app.route('/repositories')
-def repositories():
-    repos = Repository.query.order_by(Repository.cloned)
-    return render_template('repositories.html', repositories=repos)
+@app.route('/task-status/<task_id>')
+def get_task_status(task_id):
+    res = celery_instance.AsyncResult(task_id)
+    state = res.state
+    if state == "SUCCESS":
+        return "<i class='glyphicon glyphicon-ok'></i> OK"
+    if state == "FAILURE":
+        return "<i class='glyphicon glyphicon-remove'></i> FAILURE"
+    if state == "PENDING":
+        return "<i class='glyphicon glyphicon-refresh spin'></i> PENDING"
+    return state

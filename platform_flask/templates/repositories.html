@@ -1,24 +1,80 @@
 {% extends "base.html" %}
 
 {% block main %}
-    <table class="table table-striped">
-        <tr>
-            <th>Label</th>
-            <th>Type</th>
-            <th>Source</th>
-            <th>Status</th>
-        </tr>
-        {% for repo in repositories %}
-            <tr>
-                <td>{{ repo.label }}</td>
-                <td>{{ repo.type }}</td>
-                <td>{{ repo.url }}</td>
-                <td>{{ repo.cloned }}</td>
-            </tr>
-        {% endfor %}
-    </table>
+    <div class="row">
+        <div class="col-sm-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">Repositories</div>
+                <table class="table table-striped">
+                    <tr>
+                        <th>Label</th>
+                        <th>Type</th>
+                        <th>Source</th>
+                        <th>Status</th>
+                        <th></th>
+                    </tr>
+                    {% for repo in repositories %}
+                        <tr>
+                            <td>{{ repo.repo.label }}</td>
+                            <td>{{ repo.repo.type }}</td>
+                            <td>{{ repo.repo.url }}</td>
+                            <td data-task="{{ repo.repo.task }}">{{ repo.status }}</td>
+                            <td class="text-right">
+                                <a href="#" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-plus"></i></a>
+                                <a href="#" class="btn btn-default btn-sm"><i
+                                        class="glyphicon glyphicon-refresh"></i></a>
+                                <a href="{{ url_for('remove_repository', id=repo.repo.id) }}"
+                                   class="btn btn-danger btn-sm"><i class="glyphicon glyphicon-remove"></i></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">Add repository</div>
+                <div class="panel-body">
+                    <form class="form" method="post">
+                        <div class="form-group">
+                            <label for="label">Label</label>
+                            <input type="text" class="form-control" id="label" placeholder="Label" name="label">
+                        </div>
+                        <div class="form-group">
+                            <label for="type">Type</label>
+                            <select id="type" name="type" class="form-control">
+                                <option value="git">Git</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="url">Url</label>
+                            <input type="text" class="form-control" id="url" placeholder="Url" name="url">
+                        </div>
+                        <button type="submit" class="btn btn-default">Fetch</button>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block scripts %}
-
+    <script>
+        function update_task_status() {
+            $("td[data-task]").each(function () {
+                var cell = $(this);
+                var task = cell.attr('data-task');
+                var current = cell.text();
+                if (current != "SUCCESS" && current != "FAILURE") {
+                    if (task != "") {
+                        cell.load("/task-status/" + task);
+                    }
+                }
+            });
+            setTimeout(update_task_status, 1000);
+        }
+        setTimeout(update_task_status, 1000);
+    </script>
 {% endblock %}

@@ -56,9 +56,10 @@ class Repository(db.Model):
     url = db.Column(db.String(255))
     extra = db.Column(db.Text())
     cloned = db.Column(db.Boolean)
+    task = db.Column(db.String(36))
     instances = db.relationship("AppInstance")
 
-    def __init__(self, type, label, url, extra=None, cloned=False):
+    def __init__(self, type, label, url, extra=None, cloned=False, task=""):
         self.type = type
         self.label = label
         self.url = url
@@ -66,6 +67,7 @@ class Repository(db.Model):
             extra = {}
         self.extra = json.dumps(extra)
         self.cloned = cloned
+        self.task = task
 
     def get_extra(self):
         return json.loads(self.extra)
