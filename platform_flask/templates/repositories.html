@@ -18,7 +18,7 @@
                             <td>{{ repo.repo.label }}</td>
                             <td>{{ repo.repo.type }}</td>
                             <td>{{ repo.repo.url }}</td>
-                            <td data-task="{{ repo.repo.task }}">{{ repo.status }}</td>
+                            <td data-task="{{ repo.repo.task }}">{{ repo.status|safe }}</td>
                             <td class="text-right">
                                 <a href="#" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-plus"></i></a>
                                 <a href="#" class="btn btn-default btn-sm"><i

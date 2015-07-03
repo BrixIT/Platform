@@ -24,7 +24,7 @@ def repositories():
     repos = Repository.query.order_by(Repository.cloned)
     dataset = []
     for repo in repos:
-        status = "FAILURE"
+        status = "<i class='glyphicon glyphicon-ok'></i> OK"
         if len(repo.task) > 0:
             status = get_task_status(repo.task)
         dataset.append({
