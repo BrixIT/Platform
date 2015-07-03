@@ -13,6 +13,10 @@ def backend_git():
     git_clone_task.delay("sabnzbd", "https://github.com/sabnzbd/sabnzbd")
     return redirect(url_for('index'))
 
+@app.route('/instance/test')
+def instance_test():
+    git_clone_instance_task.delay("sabnzbd", "sabnzbd")
+    return redirect(url_for('index'))
 
 @celery.task
 def git_clone_task(label, repository):
@@ -21,3 +25,16 @@ def git_clone_task(label, repository):
         os.rmdir(repo_path)
     call(["git", "clone", repository, repo_path])
     return "cloned!"
+
+
+@celery.task
+def git_clone_instance_task(label, source):
+    source_path = "/opt/platform/repository/{}".format(source)
+    target_path = "/opt/platform/apps/{}".format(label)
+    if not os.path.isdir("/opt/platform/apps"):
+        os.mkdir("/opt/platform/apps")
+    if os.path.isdir(target_path):
+        return False
+    if not os.path.isdir(source_path):
+        return False
+    call(["git", "clone", source_path, target_path])
