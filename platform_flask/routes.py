@@ -25,6 +25,8 @@ def ajax_get_queue():
     }
     celery_inspector = inspect()
     active = celery_inspector.active()
+    if active is None:
+        return jsonify(error="No celery workers active")
     response = []
     for host in active:
         for message in active[host]:

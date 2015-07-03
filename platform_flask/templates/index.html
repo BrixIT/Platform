@@ -35,12 +35,19 @@
         $(function () {
             $.get('/ajax/get-queue', function (data) {
                 $('#tasks-spinner').hide();
-                $.each(data.response, function (i, item) {
+                if (data.hasOwnProperty("error")) {
                     var $tr = $('<tr>').append(
-                            $('<td>').text(item.label)
+                            $('<td>').text(data.error).addClass("text-danger")
                     );
                     $tr.appendTo('#tasks');
-                });
+                } else {
+                    $.each(data.response, function (i, item) {
+                        var $tr = $('<tr>').append(
+                                $('<td>').text(item.label)
+                        );
+                        $tr.appendTo('#tasks');
+                    });
+                }
             })
         });
     </script>
