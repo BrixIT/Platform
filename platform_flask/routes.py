@@ -2,6 +2,7 @@ from platform_flask import app
 from flask import Flask, session, redirect, url_for, request, flash, render_template, jsonify
 from platform_flask.models import db, User, Configuration
 import os
+from platform_flask.systemd import Systemd, SystemdUnit
 from celery.task.control import inspect
 
 
@@ -14,8 +15,8 @@ def index():
     if 'user' not in session:
         return redirect(url_for('login'))
 
-
-    return render_template('index.html')
+    units = Systemd().list_all()
+    return render_template('index.html', units=units)
 
 @app.route('/ajax/get-queue')
 def ajax_get_queue():
