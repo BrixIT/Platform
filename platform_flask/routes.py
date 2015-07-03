@@ -1,6 +1,6 @@
 from platform_flask import app
 from flask import Flask, session, redirect, url_for, request, flash, render_template, jsonify
-from platform_flask.models import db, User, Configuration
+from platform_flask.models import db, User, Configuration, Repository
 import os
 from platform_flask.systemd import Systemd, SystemdUnit
 from celery.task.control import inspect
@@ -17,6 +17,7 @@ def index():
 
     units = Systemd().list_all()
     return render_template('index.html', units=units)
+
 
 @app.route('/ajax/get-queue')
 def ajax_get_queue():
@@ -77,3 +78,9 @@ def login():
 def logout():
     session.pop('user', None)
     return redirect(url_for('index'))
+
+
+@app.route('/repositories')
+def repositories():
+    repos = Repository.query.order_by(Repository.cloned)
+    return render_template('repositories.html', repositories=repos)

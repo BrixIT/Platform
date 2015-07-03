@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block main %}
+    <table class="table table-striped">
+        <tr>
+            <th>Label</th>
+            <th>Type</th>
+            <th>Source</th>
+            <th>Status</th>
+        </tr>
+        {% for repo in repositories %}
+            <tr>
+                <td>{{ repo.label }}</td>
+                <td>{{ repo.type }}</td>
+                <td>{{ repo.url }}</td>
+                <td>{{ repo.cloned }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
+
+{% block scripts %}
+
+{% endblock %}

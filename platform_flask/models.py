@@ -55,17 +55,32 @@ class Repository(db.Model):
     label = db.Column(db.String(255))
     url = db.Column(db.String(255))
     extra = db.Column(db.Text())
+    cloned = db.Column(db.Boolean)
+    instances = db.relationship("AppInstance")
 
-    def __init__(self, type, label, url, extra=None):
+    def __init__(self, type, label, url, extra=None, cloned=False):
         self.type = type
         self.label = label
         self.url = url
         if extra is None:
             extra = {}
         self.extra = json.dumps(extra)
+        self.cloned = cloned
 
     def get_extra(self):
         return json.loads(self.extra)
 
     def __repr__(self):
         return "<Repository {} ({})>".format(self.id, self.label)
+
+
+class AppInstance(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    label = db.Column(db.String(40))
+    repository_id = db.Column(db.Integer, db.ForeignKey('repository.id'))
+
+    def __init__(self, label):
+        self.label = label
+
+    def __repr__(self):
+        return "<AppInstance {} ({})>".format(self.id, self.label)

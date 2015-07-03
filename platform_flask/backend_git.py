@@ -10,13 +10,26 @@ from platform_flask import celery
 @app.route('/backend/git')
 def backend_git():
     repo = Repository(type="git", label="sabnzbd", url="https://github.com/sabnzbd/sabnzbd")
+    db.session.add(repo)
+    db.session.commit()
     git_clone_task.delay("sabnzbd", "https://github.com/sabnzbd/sabnzbd")
     return redirect(url_for('index'))
+
 
 @app.route('/instance/test')
 def instance_test():
     git_clone_instance_task.delay("sabnzbd", "sabnzbd")
     return redirect(url_for('index'))
+
+
+@app.route('/callback/repository-cloned', methods=['POST'])
+def callback_repository_cloned():
+    label = request.form['label']
+    repo = Repository.query.filter_by(label=label).first()
+    repo.cloned = True
+    db.session.add(repo)
+    db.session.commit()
+
 
 @celery.task
 def git_clone_task(label, repository):
