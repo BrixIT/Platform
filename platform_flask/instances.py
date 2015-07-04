@@ -54,7 +54,7 @@ def instance_new():
     instance.mountpoint = mountpoint
     instance.status = "installing"
 
-    task = create_platform_python27.delay(label, source_repo.get_repo_path(), tag, entrypoint, args)
+    task = create_platform_python27.delay(label, source_repo.get_repo_path(), git_ref, entrypoint, args)
     instance.task = task.task_id
 
     db.session.add(instance)
