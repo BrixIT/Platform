@@ -6587,3 +6587,13 @@ button.close {
   -o-animation: spin 1s infinite linear;
   animation: spin 1s infinite linear;
 }
+.loglevel-emerg,
+.loglevel-crit,
+.loglevel-alert,
+.loglevel-err {
+  color: #a94442;
+}
+.loglevel-warning,
+.loglevel-notice {
+  color: #8a6d3b;
+}

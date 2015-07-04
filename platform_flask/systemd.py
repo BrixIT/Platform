@@ -2,6 +2,8 @@ import configparser
 import glob
 import re
 from subprocess import call, getoutput
+import json
+import datetime
 
 
 class Systemd:
@@ -84,6 +86,19 @@ class SystemdUnit:
         self.exec = config["Service"]["ExecStart"]
         self.description = config["Unit"]["Description"]
         self.name = config["Service"]["SyslogIdentifier"]
+
+    def get_status(self):
+        raw = getoutput('systemctl status platform-{}'.format(self.name))
+        regex = re.compile(r'Active:\s+(?P<status>[a-z]+\s+\([a-z]+\))\s+since')
+        matches = regex.findall(raw)
+        return {"status": matches[0]}
+
+    def get_journal(self):
+        raw = getoutput('journalctl -u platform-{} -o json'.format(self.name))
+        for line in raw.split("\n"):
+            log_line = json.loads(line)
+            log_line['timestamp'] = datetime.datetime.fromtimestamp(int(log_line['__REALTIME_TIMESTAMP'][:-4]))
+            yield json.loads(line)
 
 
 class CaseSensitiveConfigParser(configparser.ConfigParser):

@@ -10,12 +10,51 @@ from platform_flask.routes import get_task_status
 import requests
 import shutil
 import copy
+import datetime
 
 
 @app.route('/instances')
 def instances():
-    apps = AppInstance.query.order_by(AppInstance.repository_id)
+    apps = []
+    systemd = Systemd()
+    db_apps = AppInstance.query.order_by(AppInstance.repository_id)
+    for a in db_apps:
+        status = a.status
+        if status == "installed":
+            unit = systemd.load(a.label)
+            unit_info = unit.get_status()
+            status = unit_info['status']
+        repo = Repository.query.get(a.repository_id)
+        apps.append({
+            'status': status,
+            'label': a.label,
+            'repository': repo.label,
+            'platform': a.platform,
+            'port': a.port,
+            'mountpoint': a.mountpoint,
+            'id': a.id
+        })
+
     return render_template('instances.html', apps=apps)
+
+
+@app.route('/instance/<label>')
+def instance_detail(label):
+    instance = AppInstance.query.filter_by(label=label).first()
+    systemd = Systemd()
+    unit = systemd.load(instance.label)
+    journal = unit.get_journal()
+    priority = {
+        "0": "emerg",
+        "1": "alert",
+        "2": "crit",
+        "3": "err",
+        "4": "warning",
+        "5": "notice",
+        "6": "info",
+        "7": "debug"
+    }
+    return render_template('instance_detail.html', instance=instance, journal=journal, priority=priority)
 
 
 @app.route('/instance/new', methods=["POST"])

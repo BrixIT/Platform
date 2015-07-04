@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">Instance information</div>
+                <table class="table table-striped">
+                    <tr>
+                        <th>Label</th>
+                        <td>{{ instance.label }}</td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+        <div class="col-sm-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">Journal</div>
+                <table class="table table-striped">
+                    {% for line in journal %}
+                        <tr>
+                            <th>{{ line.timestamp }}</th>
+                            <td>{{ line._COMM }}</td>
+                            <td>{{ priority[line.PRIORITY] }}</td>
+                            <td class="loglevel-{{ priority[line.PRIORITY] }}">{{ line.MESSAGE }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        function update_task_status() {
+            $("td[data-task]").each(function () {
+                var cell = $(this);
+                var task = cell.attr('data-task');
+                var current = cell.text();
+                if (current != "SUCCESS" && current != "FAILURE") {
+                    if (task != "") {
+                        cell.load("/task-status/" + task);
+                    }
+                }
+            });
+            setTimeout(update_task_status, 1000);
+        }
+        setTimeout(update_task_status, 1000);
+    </script>
+{% endblock %}
