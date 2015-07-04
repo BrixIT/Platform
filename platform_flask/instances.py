@@ -124,5 +124,7 @@ def create_platform_python27(label, source_repo_path, git_ref, command, args):
     unit.save_unit("/etc/systemd/system/platform-{}.service".format(label))
     print("Reloading systemd")
     call(["systemctl", "daemon-reload"])
+    call(["systemctl", "enable", "platform-{}".format(label)])
+    call(["systemctl", "start", "platform-{}".format(label)])
     requests.post("http://127.0.0.1:5000/callback/instance-created", {"label": label})
     return "OK"
