@@ -11,6 +11,7 @@ import requests
 import shutil
 import copy
 import datetime
+from platform_flask.nginx import Nginx
 
 
 @app.route('/instances')
@@ -113,6 +114,8 @@ def destroy_instance(id):
         shutil.rmtree('/opt/platform/apps/{}'.format(label))
     db.session.delete(instance)
     db.session.commit()
+    Nginx.rebuild()
+    call(["systemctl", "restart", "nginx"])
     return redirect(url_for('instances'))
 
 
@@ -166,4 +169,6 @@ def create_platform_python27(label, source_repo_path, git_ref, command, args):
     call(["systemctl", "enable", "platform-{}".format(label)])
     call(["systemctl", "start", "platform-{}".format(label)])
     requests.post("http://127.0.0.1:5000/callback/instance-created", {"label": label})
+    Nginx.rebuild()
+    call(["systemctl", "restart", "nginx"])
     return "OK"

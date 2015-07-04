@@ -89,7 +89,7 @@ class SystemdUnit:
 
     def get_status(self):
         raw = getoutput('systemctl status platform-{}'.format(self.name))
-        regex = re.compile(r'Active:\s+(?P<status>[a-z]+\s+\([a-z]+\))\s+since')
+        regex = re.compile(r'Active:\s+(?P<status>[a-z]+\s+\([a-z:\-\s]+\))')
         matches = regex.findall(raw)
         return {"status": matches[0]}
 
