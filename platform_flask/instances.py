@@ -53,7 +53,7 @@ def instance_new():
 
     db.session.add(instance)
     db.session.commit()
-    return redirect('index', code=303)
+    return redirect(url_for('index'), code=303)
 
 
 @celery.task()
