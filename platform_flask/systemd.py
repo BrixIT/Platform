@@ -7,7 +7,7 @@ from subprocess import call, getoutput
 class Systemd:
     def __init__(self):
         self.regex_unit_list = re.compile(
-            r'^(?P<name>.+)\.service\s+(?P<load>[a-z]+)\s+(?P<active>[a-z]+)\s+(?P<sub>[a-z]+)\s+(?P<description>.+)$',
+            r'(?P<name>[a-zA-Z0-9\.-]+)\.service\s+(?P<load>[a-z]+)\s+(?P<active>[a-z]+)\s+(?P<sub>[a-z]+)\s+(?P<description>.+)$',
             re.MULTILINE)
 
     def list(self):

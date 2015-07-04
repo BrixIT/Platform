@@ -63,7 +63,7 @@ def create_platform_python27(label, source_repo_path, git_ref, command, args):
     if os.path.isdir('/opt/platform/apps/{}'.format(label)):
         shutil.rmtree('/opt/platform/apps/{}'.format(label))
     os.mkdir("/opt/platform/apps/{}".format(label))
-
+    os.mkdir("/opt/platform/apps/{}/data".format(label))
     repo_path = '/opt/platform/apps/{}/repo'.format(label)
     venv_path = '/opt/platform/apps/{}/venv'.format(label)
 
@@ -78,11 +78,12 @@ def create_platform_python27(label, source_repo_path, git_ref, command, args):
         del new_environment['PYTHON_HOME']
 
     if os.path.isfile("{}/requirements.txt".format(repo_path)):
+        print("Requirements file found. Installing dependencies")
         call(["{}/bin/pip".format(venv_path), "install", "-r", "{}/requirements.txt".format(repo_path)],
              env=new_environment)
 
+    print("Creating systemd unit")
     unit = SystemdUnit()
-
     unit.description = "Platform application: {}".format(label)
     unit.name = label
     unit.exec = "{}/bin/python2.7 {}/{} {}".format(venv_path, repo_path, command, args)
@@ -91,5 +92,6 @@ def create_platform_python27(label, source_repo_path, git_ref, command, args):
         'PATH': new_environment['PATH']
     }
     unit.save_unit("/etc/systemd/system/platform-{}.service".format(label))
+    print("Reloading systemd")
     call(["systemctl", "daemon-reload"])
     return "OK"
