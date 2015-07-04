@@ -4,9 +4,27 @@
     <div class="row">
         <div class="col-sm-3">
             <div class="panel panel-default">
-                <div class="panel-heading">Units</div>
-                <table class="table table-bordered">
+                <div class="panel-heading">
+                    Units
+                    <div class="btn-group btn-group-xs pull-right" data-toggle="buttons">
+                        <label class="btn btn-default active" id="unit-platform">
+                            <input type="radio" name="unittab" autocomplete="off" checked>Platform
+                        </label>
+                        <label class="btn btn-default" id="unit-all">
+                            <input type="radio" name="unittab" autocomplete="off">All
+                        </label>
+                    </div>
+                </div>
+                <table class="table table-bordered" id="unit-table-all" style="display: none;">
                     {% for unit in units %}
+                        <tr>
+                            <td>{{ unit.name }}</td>
+                            <td {% if unit.sub == "exited" %} class="text-danger"{% endif %}>{{ unit.sub }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+                <table class="table table-bordered" id="unit-table-platform">
+                    {% for unit in platform_units %}
                         <tr>
                             <td>{{ unit.name }}</td>
                             <td {% if unit.sub == "exited" %} class="text-danger"{% endif %}>{{ unit.sub }}</td>
@@ -48,7 +66,17 @@
                         $tr.appendTo('#tasks');
                     });
                 }
-            })
+            });
+
+            $("#unit-all").on('click', function () {
+                console.log("ALLLL");
+                $("#unit-table-platoform").hide();
+                $("#unit-table-all").show();
+            });
+            $("#unit-platform").on('click', function () {
+                $("#unit-table-all").hide();
+                $("#unit-table-platform").show();
+            });
         });
     </script>
 {% endblock %}

@@ -17,7 +17,8 @@ def index():
         return redirect(url_for('login'))
 
     units = Systemd().list_all()
-    return render_template('index.html', units=units)
+    platform_units = Systemd().list()
+    return render_template('index.html', units=units, platform_units=platform_units)
 
 
 @app.route('/ajax/get-queue')
@@ -80,6 +81,7 @@ def login():
 def logout():
     session.pop('user', None)
     return redirect(url_for('index'))
+
 
 @app.route('/task-status/<task_id>')
 def get_task_status(task_id):
