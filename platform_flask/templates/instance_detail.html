@@ -2,6 +2,10 @@
 
 {% block main %}
     <div class="row">
+        <div class="col-sm-12" style="margin-bottom: 15px;">
+            <a href="#" class="btn btn-default">Edit</a>
+            <a href="{{ url_for('destroy_instance', id=instance.id) }}" class="btn btn-danger">Destroy</a>
+        </div>
         <div class="col-sm-3">
             <div class="panel panel-default">
                 <div class="panel-heading">Instance information</div>
@@ -20,14 +24,17 @@
                         <th>Clone mode</th>
                         <td>{{ instance.clone_source }}</td>
                     </tr>
-                    <tr>
-                        <th>Branch</th>
-                        <td>{{ instance.branch }}</td>
-                    </tr>
-                    <tr>
-                        <th>Tag</th>
-                        <td>{{ instance.tag }}</td>
-                    </tr>
+                    {% if instance.clone_source == 'branch' %}
+                        <tr>
+                            <th>Branch</th>
+                            <td>{{ instance.branch }}</td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <th>Tag</th>
+                            <td>{{ instance.tag }}</td>
+                        </tr>
+                    {% endif %}
                     <tr>
                         <th>Entrypoint</th>
                         <td>{{ instance.entrypoint }}</td>

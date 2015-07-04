@@ -59,7 +59,8 @@ class SystemdUnit:
         config = CaseSensitiveConfigParser()
         config["Unit"] = {
             "Description": self.description,
-            "Requires": "nginx.service"
+            "Requires": "nginx.service",
+            "After": "nginx.service"
         }
         config["Service"] = {
             "ExecStart": self.exec,
@@ -69,7 +70,6 @@ class SystemdUnit:
             "SyslogIdentifier": self.name
         }
         config["Install"] = {
-            "After": "nginx.service",
             "WantedBy": "multi-user.target"
         }
         if self.environment:
