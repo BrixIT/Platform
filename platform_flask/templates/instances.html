@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block main %}
+    <div class="panel panel-default">
+        <div class="panel-heading">Application instances</div>
+        <table class="table table-striped">
+            <tr>
+                <th>Label</th>
+                <th>Type</th>
+                <th>Platform</th>
+                <th>Port</th>
+                <th>Mountpoint</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+            {% for app in apps %}
+                <tr>
+                    <td>{{ app.label }}</td>
+                    <td>{{ app.repository_id }}</td>
+                    <td>{{ app.platform }}</td>
+                    <td>{{ app.port }}</td>
+                    <td><a href="#">/{{ app.mountpoint }}</a></td>
+                    <td>{{ app.status }}</td>
+                    <td>
+                        <a href="{{ url_for('destroy_instance', id=app.id) }}"
+                           class="btn btn-danger btn-sm"><i class="glyphicon glyphicon-trash"></i></a>
+
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        function update_task_status() {
+            $("td[data-task]").each(function () {
+                var cell = $(this);
+                var task = cell.attr('data-task');
+                var current = cell.text();
+                if (current != "SUCCESS" && current != "FAILURE") {
+                    if (task != "") {
+                        cell.load("/task-status/" + task);
+                    }
+                }
+            });
+            setTimeout(update_task_status, 1000);
+        }
+        setTimeout(update_task_status, 1000);
+    </script>
+{% endblock %}

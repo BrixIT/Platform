@@ -14,7 +14,7 @@ class Systemd:
         return [m for m in self.list_all() if m["name"].startswith("platform-")]
 
     def list_all(self):
-        data = self.run_systemd_command("list-units --type=service")
+        data = self.run_systemd_command("list-units --type=service --all")
         units_result = self.regex_unit_list.finditer(data)
         units = [m.groupdict() for m in units_result]
         return units

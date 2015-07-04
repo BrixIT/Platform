@@ -12,6 +12,12 @@ import shutil
 import copy
 
 
+@app.route('/instances')
+def instances():
+    apps = AppInstance.query.order_by(AppInstance.repository_id)
+    return render_template('instances.html', apps=apps)
+
+
 @app.route('/instance/new', methods=["POST"])
 def instance_new():
     label = request.form['label']
@@ -56,6 +62,30 @@ def instance_new():
     return redirect(url_for('index'), code=303)
 
 
+@app.route('/instance/<id>/destroy')
+def destroy_instance(id):
+    instance = AppInstance.query.get(id)
+    label = instance.label
+    call(['systemctl', 'stop', 'platform-{}'.format(label)])
+    call(['systemctl', 'disable', 'platform-{}'.format(label)])
+    if os.path.isfile('/etc/systemd/system/platform-{}.service'.format(label)):
+        os.remove('/etc/systemd/system/platform-{}.service'.format(label))
+    if os.path.isdir('/opt/platform/apps/{}'.format(label)):
+        shutil.rmtree('/opt/platform/apps/{}'.format(label))
+    db.session.delete(instance)
+    db.session.commit()
+    return redirect(url_for('instances'))
+
+
+@app.route('/callback/instance-created', methods=["post"])
+def callback_instance_new():
+    label = request.form['label']
+    instance = AppInstance.query.filter_by(label=label).first()
+    instance.status = "installed"
+    db.session.add(instance)
+    db.session.commit()
+
+
 @celery.task()
 def create_platform_python27(label, source_repo_path, git_ref, command, args):
     if not os.path.isdir('/opt/platform/apps'):
@@ -94,4 +124,5 @@ def create_platform_python27(label, source_repo_path, git_ref, command, args):
     unit.save_unit("/etc/systemd/system/platform-{}.service".format(label))
     print("Reloading systemd")
     call(["systemctl", "daemon-reload"])
+    requests.post("http://127.0.0.1:5000/callback/instance-created", {"label": label})
     return "OK"
