@@ -97,8 +97,8 @@ class SystemdUnit:
         raw = getoutput('journalctl -u platform-{} -o json'.format(self.name))
         for line in raw.split("\n"):
             log_line = json.loads(line)
-            log_line['timestamp'] = datetime.datetime.fromtimestamp(int(log_line['__REALTIME_TIMESTAMP'][:-4]))
-            yield json.loads(line)
+            log_line['timestamp'] = datetime.datetime.fromtimestamp(int(log_line['__REALTIME_TIMESTAMP'][:-6]))
+            yield log_line
 
 
 class CaseSensitiveConfigParser(configparser.ConfigParser):

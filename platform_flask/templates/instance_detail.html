@@ -2,7 +2,7 @@
 
 {% block main %}
     <div class="row">
-        <div class="col-sm-4">
+        <div class="col-sm-3">
             <div class="panel panel-default">
                 <div class="panel-heading">Instance information</div>
                 <table class="table table-striped">
@@ -10,17 +10,56 @@
                         <th>Label</th>
                         <td>{{ instance.label }}</td>
                     </tr>
+                    <tr>
+                        <th>Instance of</th>
+                        <td>
+                            <a href="#">{{ instance.repository_id }}</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Clone mode</th>
+                        <td>{{ instance.clone_source }}</td>
+                    </tr>
+                    <tr>
+                        <th>Branch</th>
+                        <td>{{ instance.branch }}</td>
+                    </tr>
+                    <tr>
+                        <th>Tag</th>
+                        <td>{{ instance.tag }}</td>
+                    </tr>
+                    <tr>
+                        <th>Entrypoint</th>
+                        <td>{{ instance.entrypoint }}</td>
+                    </tr>
+                    <tr>
+                        <th>Arguments</th>
+                        <td>{{ instance.arguments }}</td>
+                    </tr>
+                    <tr>
+                        <th>HTTP Port</th>
+                        <td>{{ instance.port }}</td>
+                    </tr>
+                    <tr>
+                        <th>Proxy frontend</th>
+                        <td>{{ instance.proxy }}</td>
+                    </tr>
+                    <tr>
+                        <th>Mountpoint</th>
+                        <td>{{ instance.mountpoint }}</td>
+                    </tr>
+
                 </table>
             </div>
 
         </div>
-        <div class="col-sm-8">
+        <div class="col-sm-9">
             <div class="panel panel-default">
                 <div class="panel-heading">Journal</div>
                 <table class="table table-striped">
                     {% for line in journal %}
                         <tr>
-                            <th>{{ line.timestamp }}</th>
+                            <th style="white-space: nowrap;">{{ line.timestamp }}</th>
                             <td>{{ line._COMM }}</td>
                             <td>{{ priority[line.PRIORITY] }}</td>
                             <td class="loglevel-{{ priority[line.PRIORITY] }}">{{ line.MESSAGE }}</td>
