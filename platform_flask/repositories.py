@@ -3,11 +3,12 @@ from flask import Flask, session, redirect, url_for, request, flash, render_temp
 from platform_flask.models import db, User, Configuration, Repository
 from time import sleep
 import os
-from subprocess import call
+from subprocess import call, getoutput
 from platform_flask import celery
 from platform_flask.routes import get_task_status
 import requests
 import shutil
+
 
 @app.route('/repositories', methods=["GET", "POST"])
 def repositories():
@@ -32,6 +33,20 @@ def repositories():
             "repo": repo
         })
     return render_template('repositories.html', repositories=dataset)
+
+
+@app.route('/repositories/<id>/instance')
+def create_instance(id):
+    repo = Repository.query.get(id)
+
+    tags = getoutput("git -C '{}' tag".format(repo.get_repo_path())).split("\n")
+    branches_all = getoutput("git -C '{}' branch --all".format(repo.get_repo_path())).split("\n")
+    branches = []
+    for b in branches_all:
+        if "remotes/origin/" in b and "->" not in b:
+            branches.append(b.replace("remotes/origin/", "").strip())
+    return render_template('create_instance.html', repo=repo, tags=reversed(tags), branches=branches)
+
 
 @app.route('/backend/git')
 def backend_git():

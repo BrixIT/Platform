@@ -54,7 +54,7 @@ class SystemdUnit:
         self.on_boot = False
 
     def save_unit(self, path):
-        config = configparser.ConfigParser()
+        config = CaseSensitiveConfigParser()
         config["Unit"] = {
             "Description": self.description,
             "Requires": "nginx.service"
@@ -79,8 +79,13 @@ class SystemdUnit:
             config.write(target_file)
 
     def load_unit(self, path):
-        config = configparser.ConfigParser()
+        config = CaseSensitiveConfigParser()
         config.read(path)
         self.exec = config["Service"]["ExecStart"]
         self.description = config["Unit"]["Description"]
         self.name = config["Service"]["SyslogIdentifier"]
+
+
+class CaseSensitiveConfigParser(configparser.ConfigParser):
+    def optionxform(self, optionstr):
+        return optionstr

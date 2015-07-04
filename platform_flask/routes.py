@@ -23,7 +23,8 @@ def index():
 @app.route('/ajax/get-queue')
 def ajax_get_queue():
     labels = {
-        'platform_flask.backend_git.git_clone_task': 'Cloning git repository'
+        'platform_flask.backend_git.git_clone_task': 'Cloning git repository',
+        'platform_flask.instances.create_platform_python27': 'Creating new Python 2.7 platform'
     }
     celery_inspector = inspect()
     active = celery_inspector.active()

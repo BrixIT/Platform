@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block main %}
+    <h1>Creating new instance from: {{ repo.label }}<br>
+        <small>{{ repo.url }}</small>
+    </h1>
+    <form method="post" class="form" action="{{ url_for('instance_new') }}">
+    <input type="hidden" name="source_repo" value="{{ repo.label }}">
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Source</div>
+                    <div class="panel-body">
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="clonesource" id="clonesource1" value="tag" checked>
+                                Create app instance from tag
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="clonesource" id="clonesource2" value="branch">
+                                Create app instance from branch
+                            </label>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="tag">Select tag</label>
+                            <select name="tag" id="tag" class="form-control">
+                                {% for tag in tags %}
+                                    <option>{{ tag }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="branch">Select branch</label>
+                            <select name="branch" id="branch" class="form-control">
+                                {% for branch in branches %}
+                                    <option>{{ branch }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Application instance</div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label for="label">Label</label>
+                            <input type="text" id="label" name="label" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="platform">Platform</label>
+                            <select id="platform" name="platform" class="form-control">
+                                <option value="python27">Python 2.7</option>
+                                <option value="python34">Python 3.4</option>
+                                <option value="nodejs">Nodejs</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="entrypoint">Entrypoint</label>
+                            <input type="text" id="entrypoint" name="entrypoint" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="args">Arguments</label>
+                            <input type="text" id="args" name="args" class="form-control">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Frontend</div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label for="port">Application http port</label>
+                            <input type="text" id="port" name="port" class="form-control">
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" value="proxy" name="proxy">
+                                Proxy application to a path on *:80
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label for="mountpoint">Application mount point</label>
+                            <input type="text" id="mountpoint" name="mountpoint" class="form-control">
+                            <span class="help-block">
+                                The application will be available on http://&lt;This server&gt;/&lt;Mountpoint&gt;
+                            </span>
+
+                        </div>
+                        <button class="btn btn-primary pull-right" type="submit">Create</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

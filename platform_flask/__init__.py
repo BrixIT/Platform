@@ -22,3 +22,4 @@ app.jinja_env.filters['gravatar'] = gravatar
 
 import platform_flask.routes
 import platform_flask.repositories
+import platform_flask.instances

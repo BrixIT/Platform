@@ -72,6 +72,9 @@ class Repository(db.Model):
     def get_extra(self):
         return json.loads(self.extra)
 
+    def get_repo_path(self):
+        return "/opt/platform/repository/{}".format(self.label)
+
     def __repr__(self):
         return "<Repository {} ({})>".format(self.id, self.label)
 
@@ -80,9 +83,21 @@ class AppInstance(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     label = db.Column(db.String(40))
     repository_id = db.Column(db.Integer, db.ForeignKey('repository.id'))
+    clone_source = db.Column(db.String(5))
+    tag = db.Column(db.String(100))
+    branch = db.Column(db.String(120))
+    platform = db.Column(db.String(50))
+    entrypoint = db.Column(db.String(255))
+    arguments = db.Column(db.Text)
+    port = db.Column(db.Integer)
+    proxy = db.Column(db.Boolean)
+    mountpoint = db.Column(db.String(255))
+    status = db.Column(db.String(255))
+    task = db.Column(db.String(36))
 
-    def __init__(self, label):
+    def __init__(self, label, repository_id):
         self.label = label
+        self.repository_id = repository_id
 
     def __repr__(self):
         return "<AppInstance {} ({})>".format(self.id, self.label)
