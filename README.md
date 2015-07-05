@@ -69,3 +69,21 @@ The page to create a new instance from a repository:
 Instance details and journal:
 
 ![Instance details](http://brixitcdn.net/github/platform/instance_detail.png)
+
+# TODO
+
+- [ ] Implement Python 3.4 platform
+- [ ] Implement Nodejs platform
+- [ ] Write unit tests
+- [ ] Support subdomain proxy instead of directory
+- [ ] Implement PHP platform
+- [ ] Add process tree to instance detail page
+- [ ] Implement unit start/stop/reload
+- [ ] Add config file support to instances
+- [ ] Bind instance settings to config file settings (automatic port change and mountpoint config)
+- [ ] Implement http://platform.brixit.nl to fetch instance creation settings for popular repo's and add "One click install"
+- [ ] Add CPU/Memory view to instances
+- [ ] Add permissions for more users and instances
+- [ ] Add auth support in reverse proxy
+- [ ] Add support for proxying external servers
+- [ ] Add support for SSL termination in proxying (maybe with mozilla's encrypt-the-web support)
