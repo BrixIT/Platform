@@ -65,3 +65,7 @@ The instances page:
 The page to create a new instance from a repository:
 
 ![New instance](http://brixitcdn.net/github/platform/new-instance.png)
+
+Instance details and journal:
+
+![Instance details](http://brixitcdn.net/github/platform/instance_detail.png)
