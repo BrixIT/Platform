@@ -10,7 +10,7 @@ Currently planned supported platforms:
 - [ ] Nodejs
 - [ ] PHP
 
-Platform works by downloading git (other soon) repositories in the webinterface and creating "instances" of it. 
+Platform works by downloading git (and others soon) repositories in the webinterface and creating "instances" of it. 
 Platform will automatically create a new seperate environment for the webapplication (virtualenv for python for example)
 and create a systemd unit to run the webapp. It also can automaticaly create a new entry in nginx to reverse proxy the
 webapplications to port 80 in a subdirectory.
@@ -24,6 +24,7 @@ Platform will ultimatly be a customised Debian iso that will do this for you. Fo
 - python3.4
 - rabbitmq
 - mysql-server
+- celery (python module)
 - git
 
 and clone this repository to `/opt/platform`.
