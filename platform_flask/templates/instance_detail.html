@@ -5,6 +5,18 @@
         <div class="col-sm-12" style="margin-bottom: 15px;">
             <a href="#" class="btn btn-default">Edit</a>
             <a href="{{ url_for('destroy_instance', id=instance.id) }}" class="btn btn-danger">Destroy</a>
+
+            <div class="btn-group pull-right" role="group">
+                <button type="button" class="btn btn-default disabled">
+                    <i class="glyphicon glyphicon-play"></i>
+                </button>
+                <button type="button" class="btn btn-default">
+                    <i class="glyphicon glyphicon-stop"></i>
+                </button>
+                <button type="button" class="btn btn-default">
+                    <i class="glyphicon glyphicon-refresh"></i>
+                </button>
+            </div>
         </div>
         <div class="col-sm-3">
             <div class="panel panel-default">
