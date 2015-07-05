@@ -95,6 +95,8 @@ class SystemdUnit:
 
     def get_journal(self):
         raw = getoutput('journalctl -u platform-{} -o json'.format(self.name))
+        if "Cannot assign requested address" in raw:
+            return []
         for line in raw.split("\n"):
             log_line = json.loads(line)
             log_line['timestamp'] = datetime.datetime.fromtimestamp(int(log_line['__REALTIME_TIMESTAMP'][:-6]))
