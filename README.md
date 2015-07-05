@@ -72,6 +72,8 @@ Instance details and journal:
 
 # TODO
 
+Not in any order:
+
 - [ ] Implement Python 3.4 platform
 - [ ] Implement Nodejs platform
 - [ ] Write unit tests
@@ -87,3 +89,5 @@ Instance details and journal:
 - [ ] Add auth support in reverse proxy
 - [ ] Add support for proxying external servers
 - [ ] Add support for SSL termination in proxying (maybe with mozilla's encrypt-the-web support)
+- [ ] Create Debian package
+- [ ] Create custom Debian iso
