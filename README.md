@@ -3,7 +3,7 @@
 This is a management platform intended to run on Debian 8 (because systemd) to run webapplications written in several
 languages.
 
-Currently supported platforms:
+Currently planned supported platforms:
 
 - [x] Python 2.7
 - [ ] Python 3.4
