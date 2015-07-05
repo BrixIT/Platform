@@ -10,7 +10,7 @@ class Nginx:
     def load_instances(self):
         instances = AppInstance.query.order_by(AppInstance.mountpoint)
         for instance in instances:
-            self.add_proxy(instance.mountpoint, "http://127.0.0.1:{}/".format(instance.port))
+            self.add_proxy(instance.mountpoint, "http://127.0.0.1:{}".format(instance.port))
 
     def generate_config(self):
         file = ["server {"]
@@ -18,7 +18,7 @@ class Nginx:
         file.append("   server_name _;")
         for mountpoint in self.proxies:
             file.append("   location /{} {{".format(mountpoint))
-            file.append("       proxy_pass {};".format(self.proxies[mountpoint]))
+            file.append("       proxy_pass {}/{};".format(self.proxies[mountpoint], mountpoint))
             file.append("       proxy_pass_header Set-Cookie;")
             file.append("       proxy_hide_header Vary;")
             file.append("       proxy_set_header Accept-Encoding '';")
