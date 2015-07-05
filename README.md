@@ -49,4 +49,18 @@ $ celery worker -A platform_flask.celery
 
 # Screenshots
 
-//TODO: Screenshots
+The overview page:
+
+![overview](http://brixitcdn.net/github/platform/overview.png)
+
+The repositories page:
+
+![repositories](http://brixitcdn.net/github/platform/repositories.png)
+
+The instances page:
+
+![instances](http://brixitcdn.net/github/platform/instances.png)
+
+The page to create a new instance from a repository:
+
+![New instance](http://brixitcdn.net/github/platform/new-instance.png)
