@@ -8,6 +8,7 @@ Currently supported platforms:
 - [x] Python 2.7
 - [ ] Python 3.4
 - [ ] Nodejs
+- [ ] PHP
 
 Platform works by downloading git (other soon) repositories in the webinterface and creating "instances" of it. 
 Platform will automatically create a new seperate environment for the webapplication (virtualenv for python for example)
