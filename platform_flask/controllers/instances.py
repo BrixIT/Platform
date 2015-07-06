@@ -8,8 +8,7 @@ from platform_flask import app
 from platform_flask.models import db, Repository, AppInstance
 from platform_flask.components.systemd import Systemd
 from platform_flask.components.nginx import Nginx
-from platform_flask.platform.python27 import create_platform_python27
-from platform_flask.platform.python34 import create_platform_python34
+from platform_flask.platform.python import create_platform_python27, create_platform_python34
 
 
 @app.route('/instances')

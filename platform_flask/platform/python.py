@@ -10,11 +10,21 @@ from platform_flask.platform.base import create_instance_directories, clone_app_
 
 @celery.task()
 def create_platform_python27(label, source_repo_path, git_ref, command, args):
+    return create_platform_python(label, source_repo_path, git_ref, command, args, '2.7')
+
+
+@celery.task()
+def create_platform_python34(label, source_repo_path, git_ref, command, args):
+    return create_platform_python(label, source_repo_path, git_ref, command, args, '3.4')
+
+
+def create_platform_python(label, source_repo_path, git_ref, command, args, python_version):
     app_path, repo_path, data_path = create_instance_directories(label)
     venv_path = '{}/venv'.format(app_path)
 
     clone_app_repo(source_repo_path, repo_path, git_ref)
-    call(["virtualenv", "-p", "python2.7", "--system-site-packages", venv_path])
+
+    call(["virtualenv", "-p", "python{}".format(python_version), "--system-site-packages", venv_path])
 
     new_environment = copy.deepcopy(os.environ)
     new_environment['PATH'] = "{}/bin:{}".format(venv_path, new_environment['PATH'])
@@ -31,7 +41,7 @@ def create_platform_python27(label, source_repo_path, git_ref, command, args):
     unit = SystemdUnit()
     unit.description = "Platform application: {}".format(label)
     unit.name = label
-    unit.exec = "{}/bin/python2.7 {}/{} {}".format(venv_path, repo_path, command, args)
+    unit.exec = "{}/bin/python{} {}/{} {}".format(python_version, venv_path, repo_path, command, args)
     unit.environment = {
         'VIRTUAL_ENV': venv_path,
         'PATH': new_environment['PATH']
