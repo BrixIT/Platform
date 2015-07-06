@@ -6,7 +6,7 @@ languages.
 Currently planned supported platforms:
 
 - [x] Python 2.7
-- [ ] Python 3.4
+- [x] Python 3.4
 - [ ] Nodejs
 - [ ] PHP
 
@@ -79,7 +79,7 @@ Instance details and journal:
 
 Not in any order:
 
-- [ ] Implement Python 3.4 platform
+- [ ] Refactor platform.python27 and platform.python34 to deduplicate code
 - [ ] Implement Nodejs platform
 - [ ] Write unit tests
 - [ ] Support subdomain proxy instead of directory
