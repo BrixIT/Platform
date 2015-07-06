@@ -50,8 +50,6 @@ $ systemctl start platformweb
 To start the background worker:
 
 ```bash
-
-$ cd /opt/platform
 $ systemctl start platformworker
 ```
 
