@@ -34,8 +34,6 @@ To start the components copy `platformweb.service` and `platformworker.service` 
 ```bash
 $ systemctl enable platformweb
 $ systemctl enable platformworker
-$ systemctl start platformweb
-$ systemctl start platformworker
 ```
 
 Please not that this install guide is not complete.
@@ -45,8 +43,7 @@ Please not that this install guide is not complete.
 To start the management application:
 
 ```bash
-$ cd /opt/platform
-$ python3 runserver.py
+$ systemctl start platformweb
 # The server will start on port 5000
 ```
 
@@ -55,7 +52,7 @@ To start the background worker:
 ```bash
 
 $ cd /opt/platform
-$ celery worker -A platform_flask.celery
+$ systemctl start platformworker
 ```
 
 # Screenshots
