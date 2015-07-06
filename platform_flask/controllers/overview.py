@@ -1,8 +1,9 @@
 import os
 
+from flask import session, redirect, url_for, render_template
+
 from platform_flask import app
-from platform_flask.models import db, User
-from flask import session, redirect, url_for, request, flash, render_template, jsonify
+from platform_flask.models import db
 from platform_flask.components.systemd import Systemd
 
 

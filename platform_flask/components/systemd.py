@@ -1,5 +1,4 @@
 import configparser
-import glob
 import re
 from subprocess import call, getoutput
 import json

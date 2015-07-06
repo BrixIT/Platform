@@ -1,13 +1,14 @@
-from platform_flask import app
-from flask import Flask, session, redirect, url_for, request, flash, render_template
-from platform_flask.models import db, User, Configuration, Repository
-from time import sleep
 import os
 from subprocess import call, getoutput
+import shutil
+
+from flask import redirect, url_for, request, render_template
+import requests
+
+from platform_flask import app
+from platform_flask.models import db, Repository
 from platform_flask import celery
 from platform_flask.routes import get_task_status
-import requests
-import shutil
 
 
 @app.route('/repositories', methods=["GET", "POST"])
