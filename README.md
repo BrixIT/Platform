@@ -79,7 +79,6 @@ Instance details and journal:
 
 Not in any order:
 
-- [ ] Refactor platform.python27 and platform.python34 to deduplicate code
 - [ ] Implement Nodejs platform
 - [ ] Write unit tests
 - [ ] Support subdomain proxy instead of directory
