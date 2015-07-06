@@ -29,6 +29,15 @@ Platform will ultimatly be a customised Debian iso that will do this for you. Fo
 
 and clone this repository to `/opt/platform`.
 
+To start the components copy `platformweb.service` and `platformworker.service` to `/etc/systemd/system` and run:
+
+```bash
+$ systemctl enable platformweb
+$ systemctl enable platformworker
+$ systemctl start platformweb
+$ systemctl start platformworker
+```
+
 Please not that this install guide is not complete.
 
 # Running
