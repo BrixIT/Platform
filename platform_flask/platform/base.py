@@ -1,6 +1,8 @@
 import os
 import shutil
 from subprocess import call
+import requests
+from platform_flask.components.nginx import Nginx
 
 
 def create_instance_directories(label):
@@ -19,3 +21,12 @@ def create_instance_directories(label):
 def clone_app_repo(source, target, git_ref):
     call(["git", "clone", source, target])
     call(["git", "-C", target, "checkout", git_ref])
+
+
+def finish_instance_creation(label):
+    call(["systemctl", "daemon-reload"])
+    call(["systemctl", "enable", "platform-{}".format(label)])
+    call(["systemctl", "start", "platform-{}".format(label)])
+    requests.post("http://127.0.0.1:5000/callback/instance-created", {"label": label})
+    Nginx.rebuild()
+    call(["systemctl", "restart", "nginx"])

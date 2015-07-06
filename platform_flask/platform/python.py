@@ -1,11 +1,9 @@
 import copy
 import os
 from subprocess import call
-import requests
 from platform_flask import celery
-from platform_flask.components.nginx import Nginx
 from platform_flask.components.systemd import SystemdUnit
-from platform_flask.platform.base import create_instance_directories, clone_app_repo
+from platform_flask.platform.base import create_instance_directories, clone_app_repo, finish_instance_creation
 
 
 @celery.task()
@@ -20,10 +18,9 @@ def create_platform_python34(label, source_repo_path, git_ref, command, args):
 
 def create_platform_python(label, source_repo_path, git_ref, command, args, python_version):
     app_path, repo_path, data_path = create_instance_directories(label)
-    venv_path = '{}/venv'.format(app_path)
-
     clone_app_repo(source_repo_path, repo_path, git_ref)
 
+    venv_path = '{}/venv'.format(app_path)
     call(["virtualenv", "-p", "python{}".format(python_version), "--system-site-packages", venv_path])
 
     new_environment = copy.deepcopy(os.environ)
@@ -47,11 +44,5 @@ def create_platform_python(label, source_repo_path, git_ref, command, args, pyth
         'PATH': new_environment['PATH']
     }
     unit.save_unit("/etc/systemd/system/platform-{}.service".format(label))
-    print("Reloading systemd")
-    call(["systemctl", "daemon-reload"])
-    call(["systemctl", "enable", "platform-{}".format(label)])
-    call(["systemctl", "start", "platform-{}".format(label)])
-    requests.post("http://127.0.0.1:5000/callback/instance-created", {"label": label})
-    Nginx.rebuild()
-    call(["systemctl", "restart", "nginx"])
+    finish_instance_creation(label)
     return "OK"
