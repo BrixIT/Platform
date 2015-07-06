@@ -1,26 +1,19 @@
 import copy
 import os
-import shutil
 from subprocess import call
 import requests
 from platform_flask import celery
 from platform_flask.components.nginx import Nginx
 from platform_flask.components.systemd import SystemdUnit
+from platform_flask.platform.base import create_instance_directories, clone_app_repo
 
 
 @celery.task()
 def create_platform_python27(label, source_repo_path, git_ref, command, args):
-    if not os.path.isdir('/opt/platform/apps'):
-        os.mkdir("/opt/platform/apps")
-    if os.path.isdir('/opt/platform/apps/{}'.format(label)):
-        shutil.rmtree('/opt/platform/apps/{}'.format(label))
-    os.mkdir("/opt/platform/apps/{}".format(label))
-    os.mkdir("/opt/platform/apps/{}/data".format(label))
-    repo_path = '/opt/platform/apps/{}/repo'.format(label)
-    venv_path = '/opt/platform/apps/{}/venv'.format(label)
+    app_path, repo_path, data_path = create_instance_directories(label)
+    venv_path = '{}/venv'.format(app_path)
 
-    call(["git", "clone", source_repo_path, repo_path])
-    call(["git", "-C", repo_path, "checkout", git_ref])
+    clone_app_repo(source_repo_path, repo_path, git_ref)
     call(["virtualenv", "-p", "python2.7", "--system-site-packages", venv_path])
 
     new_environment = copy.deepcopy(os.environ)
