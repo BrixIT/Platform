@@ -1,0 +1,13 @@
+[Unit]
+Description = BrixIT Platform webinterface
+
+[Service]
+ExecStart = /usr/local/bin/celery worker -A platform_flask.celery
+Restart = always
+StandardOutput = journal
+StandardError = journal
+Environment = "C_FORCE_ROOT=1"
+WorkingDirectory = /opt/platform
+
+[Install]
+WantedBy = multi-user.target

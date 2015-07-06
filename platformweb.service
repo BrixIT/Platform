@@ -1,0 +1,12 @@
+[Unit]
+Description = BrixIT Platform webinterface
+
+[Service]
+ExecStart = /opt/platform/runserver.py
+Restart = always
+StandardOutput = journal
+StandardError = journal
+WorkingDirectory = /opt/platform
+
+[Install]
+WantedBy = multi-user.target
