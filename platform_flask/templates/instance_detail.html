@@ -7,15 +7,18 @@
             <a href="{{ url_for('destroy_instance', id=instance.id) }}" class="btn btn-danger">Destroy</a>
 
             <div class="btn-group pull-right" role="group">
-                <button type="button" class="btn btn-default disabled">
+                <a href="{{ url_for('instance_systemd_command', id=instance.id, command='start') }}"
+                   class="btn btn-default">
                     <i class="glyphicon glyphicon-play"></i>
-                </button>
-                <button type="button" class="btn btn-default">
+                </a>
+                <a href="{{ url_for('instance_systemd_command', id=instance.id, command='stop') }}"
+                   class="btn btn-default">
                     <i class="glyphicon glyphicon-stop"></i>
-                </button>
-                <button type="button" class="btn btn-default">
+                </a>
+                <a href="{{ url_for('instance_systemd_command', id=instance.id, command='restart') }}"
+                   class="btn btn-default">
                     <i class="glyphicon glyphicon-refresh"></i>
-                </button>
+                </a>
             </div>
         </div>
         <div class="col-sm-3">

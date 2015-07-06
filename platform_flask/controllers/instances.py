@@ -103,6 +103,15 @@ def instance_new():
     return redirect(url_for('index'), code=303)
 
 
+@app.route('/instance/<id>/systemd/<command>')
+def instance_systemd_command(id, command):
+    instance = AppInstance.query.get(id)
+    label = instance.label
+    unit = Systemd().load(label)
+    unit.command(command)
+    return redirect(url_for('instance_detail', label=label))
+
+
 @app.route('/instance/<id>/destroy')
 def destroy_instance(id):
     instance = AppInstance.query.get(id)

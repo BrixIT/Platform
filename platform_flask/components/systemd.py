@@ -54,6 +54,9 @@ class SystemdUnit:
         self.environment = {}
         self.on_boot = False
 
+    def command(self, command):
+        call(['systemctl', command, 'platform-{}'.format(self.name)])
+
     def save_unit(self, path):
         config = CaseSensitiveConfigParser()
         config["Unit"] = {
