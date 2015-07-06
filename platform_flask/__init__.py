@@ -1,7 +1,8 @@
 from flask import Flask
-from platform_flask.messagequeue import make_celery
-import sqlalchemy
 import pymysql
+
+from platform_flask.messagequeue import make_celery
+
 pymysql.install_as_MySQLdb()
 
 app = Flask(__name__)
@@ -21,5 +22,5 @@ from platform_flask.jinjafilters import gravatar
 app.jinja_env.filters['gravatar'] = gravatar
 
 import platform_flask.routes
-import platform_flask.repositories
-import platform_flask.instances
+import platform_flask.controllers.repositories
+import platform_flask.controllers.instances

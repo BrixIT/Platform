@@ -1,9 +1,11 @@
+import os
+
+from flask import session, redirect, url_for, request, flash, render_template, jsonify
+
 from platform_flask import app
 from platform_flask import celery as celery_instance
-from flask import Flask, session, redirect, url_for, request, flash, render_template, jsonify
-from platform_flask.models import db, User, Configuration, Repository
-import os
-from platform_flask.systemd import Systemd, SystemdUnit
+from platform_flask.models import db, User
+from platform_flask.components.systemd import Systemd
 from celery.task.control import inspect
 
 

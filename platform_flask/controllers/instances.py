@@ -1,17 +1,16 @@
-from platform_flask import app
-from flask import Flask, session, redirect, url_for, request, flash, render_template
-from platform_flask.models import db, User, Configuration, Repository, AppInstance
-from platform_flask.systemd import Systemd, SystemdUnit
-from time import sleep
 import os
-from subprocess import call, getoutput
-from platform_flask import celery
-from platform_flask.routes import get_task_status
-import requests
+from subprocess import call
 import shutil
 import copy
-import datetime
-from platform_flask.nginx import Nginx
+
+from flask import redirect, url_for, request, render_template
+import requests
+
+from platform_flask import app
+from platform_flask.models import db, Repository, AppInstance
+from platform_flask.components.systemd import Systemd, SystemdUnit
+from platform_flask import celery
+from platform_flask.components.nginx import Nginx
 
 
 @app.route('/instances')
