@@ -1,7 +1,7 @@
 from flask import Flask
 import pymysql
 
-from platform_flask.messagequeue import make_celery
+from platform_flask.components.messagequeue import make_celery
 
 pymysql.install_as_MySQLdb()
 
@@ -17,10 +17,11 @@ from platform_flask.models import db
 db.init_app(app)
 app.secret_key = 'development key'
 
-from platform_flask.jinjafilters import gravatar
+from platform_flask.components.jinjafilters import gravatar
 
 app.jinja_env.filters['gravatar'] = gravatar
 
 import platform_flask.routes
+import platform_flask.controllers.overview
 import platform_flask.controllers.repositories
 import platform_flask.controllers.instances

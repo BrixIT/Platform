@@ -5,22 +5,7 @@ from flask import session, redirect, url_for, request, flash, render_template, j
 from platform_flask import app
 from platform_flask import celery as celery_instance
 from platform_flask.models import db, User
-from platform_flask.components.systemd import Systemd
 from celery.task.control import inspect
-
-
-@app.route('/')
-def index():
-    db.create_all()
-    if not os.path.isfile('/opt/platform/platform.db') or os.path.getsize('/opt/platform/platform.db') == 0:
-        return redirect(url_for('setup'))
-
-    if 'user' not in session:
-        return redirect(url_for('login'))
-
-    units = Systemd().list_all()
-    platform_units = Systemd().list()
-    return render_template('index.html', units=units, platform_units=platform_units)
 
 
 @app.route('/ajax/get-queue')
