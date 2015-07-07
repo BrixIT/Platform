@@ -52,7 +52,9 @@ def instance_detail(label):
         "6": "info",
         "7": "debug"
     }
-    return render_template('instance_detail.html', instance=instance, journal=journal, priority=priority)
+    running = unit.is_running()
+    return render_template('instance_detail.html', instance=instance, journal=journal, priority=priority,
+                           running=running)
 
 
 @app.route('/instance/new', methods=["POST"])

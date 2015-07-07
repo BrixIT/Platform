@@ -58,7 +58,8 @@ class SystemdUnit:
         call(['systemctl', command, 'platform-{}'.format(self.name)])
 
     def is_running(self):
-        return getoutput('systemctl is-active platform-{}'.format(self.name)) == 'Active'
+        output = getoutput('systemctl is-active platform-{}'.format(self.name))
+        return output == 'active'
 
     def save_unit(self, path):
         config = CaseSensitiveConfigParser()

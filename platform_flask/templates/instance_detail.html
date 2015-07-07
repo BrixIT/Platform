@@ -8,15 +8,15 @@
 
             <div class="btn-group pull-right" role="group">
                 <a href="{{ url_for('instance_systemd_command', id=instance.id, command='start') }}"
-                   class="btn btn-default">
+                   class="btn btn-default{% if running %} disabled{% endif %}">
                     <i class="glyphicon glyphicon-play"></i>
                 </a>
                 <a href="{{ url_for('instance_systemd_command', id=instance.id, command='stop') }}"
-                   class="btn btn-default">
+                   class="btn btn-default{% if not running %} disabled{% endif %}">
                     <i class="glyphicon glyphicon-stop"></i>
                 </a>
                 <a href="{{ url_for('instance_systemd_command', id=instance.id, command='restart') }}"
-                   class="btn btn-default">
+                   class="btn btn-default{% if not running %} disabled{% endif %}">
                     <i class="glyphicon glyphicon-refresh"></i>
                 </a>
             </div>
