@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-sm-6">
+
+        </div>
+        <div class="col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">Advanced configuration</div>
+                <table class="table table-striped">
+                    <tr>
+                        <th>Name</th>
+                        <th>Value</th>
+                    </tr>
+                    {% for item in all_config %}
+                        <tr>
+                            <th>{{ item.id }}</th>
+                            <td>{{ item.value }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+
+{% endblock %}

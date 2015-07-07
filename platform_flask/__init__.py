@@ -25,3 +25,4 @@ import platform_flask.routes
 import platform_flask.controllers.overview
 import platform_flask.controllers.repositories
 import platform_flask.controllers.instances
+import platform_flask.controllers.configuration
