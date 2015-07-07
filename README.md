@@ -84,7 +84,6 @@ Not in any order:
 - [ ] Support subdomain proxy instead of directory
 - [ ] Implement PHP platform
 - [ ] Add process tree to instance detail page
-- [ ] Implement unit start/stop/reload
 - [ ] Add config file support to instances
 - [ ] Bind instance settings to config file settings (automatic port change and mountpoint config)
 - [ ] Implement http://platform.brixit.nl to fetch instance creation settings for popular repo's and add "One click install"
