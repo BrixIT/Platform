@@ -95,3 +95,4 @@ Not in any order:
 - [ ] Add support for SSL termination in proxying (maybe with mozilla's encrypt-the-web support)
 - [ ] Create Debian package
 - [ ] Create custom Debian iso
+- [ ] Support database creation and dependencies for instances
