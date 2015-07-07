@@ -57,3 +57,19 @@
 .loglevel-warning, .loglevel-notice {
   color: @alert-warning-text;
 }
+
+.panel-graph {
+  svg {
+    .line {
+      fill: none;
+      stroke: #000;
+      stroke-width: 1.5px;
+    }
+    .x.axis line {
+      shape-rendering: auto;
+    }
+    .domain {
+      fill: none;
+    }
+  }
+}

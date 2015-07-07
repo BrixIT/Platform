@@ -53,8 +53,9 @@ def instance_detail(label):
         "7": "debug"
     }
     running = unit.is_running()
+    resource_usage = unit.get_usage()
     return render_template('instance_detail.html', instance=instance, journal=journal, priority=priority,
-                           running=running)
+                           running=running, usage=resource_usage)
 
 
 @app.route('/instance/new', methods=["POST"])

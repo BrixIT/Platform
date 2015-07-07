@@ -73,7 +73,9 @@ class SystemdUnit:
             "Restart": "always",
             "StandardOutput": "journal",
             "StandardError": "journal",
-            "SyslogIdentifier": self.name
+            "SyslogIdentifier": self.name,
+            "CPUAccounting": 1,
+            "MemoryAccounting": 1
         }
         config["Install"] = {
             "WantedBy": "multi-user.target"
@@ -107,6 +109,25 @@ class SystemdUnit:
             log_line = json.loads(line)
             log_line['timestamp'] = datetime.datetime.fromtimestamp(int(log_line['__REALTIME_TIMESTAMP'][:-6]))
             yield log_line
+
+    def get_usage(self):
+        p = re.compile(
+            r'^/system\.slice/(?P<unit>[\w\.\-@]+)\s+(?P<tasks>\d+)\s+(?P<cpu>[0-9\.\-]+)\s+(?P<mem>[0-9\.\-]+)',
+            re.MULTILINE)
+        # systemd is not honoring the batch and iteration options
+        raw = getoutput('systemd-cgtop --batch --iterations=2')
+        for unit in p.finditer(raw):
+            column = unit.groupdict()
+            if column['cpu'] == '-':
+                column['cpu'] = 0
+            else:
+                column['cpu'] = float(column['cpu'])
+            if column['mem'] == '-':
+                column['mem'] = 0
+            else:
+                column['mem'] = float(column['mem'])
+            if column['unit'] == 'platform-{}.service'.format(self.name):
+                return column
 
 
 class CaseSensitiveConfigParser(configparser.ConfigParser):

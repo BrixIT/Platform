@@ -6597,3 +6597,14 @@ button.close {
 .loglevel-notice {
   color: #8a6d3b;
 }
+.panel-graph svg .line {
+  fill: none;
+  stroke: #000;
+  stroke-width: 1.5px;
+}
+.panel-graph svg .x.axis line {
+  shape-rendering: auto;
+}
+.panel-graph svg .domain {
+  fill: none;
+}
