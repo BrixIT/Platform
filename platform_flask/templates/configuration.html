@@ -3,7 +3,44 @@
 {% block main %}
     <div class="row">
         <div class="col-sm-6">
-
+            <div class="panel panel-default">
+                <div class="panel-heading">HTTP repository login</div>
+                <div class="panel-body">
+                    These logins are used when cloning repositories over http or https.
+                </div>
+                <table class="table table-striped">
+                    <tr>
+                        <th>Host</th>
+                        <th>Username</th>
+                        <th>Password</th>
+                        <th></th>
+                    </tr>
+                    <form method="post" action="/configuration/http_repo_auth/add">
+                        <tr>
+                            <td>
+                                <input type="text" name="host" class="form-control">
+                            </td>
+                            <td>
+                                <input type="text" name="username" class="form-control">
+                            </td>
+                            <td>
+                                <input type="text" name="password" class="form-control">
+                            </td>
+                            <td>
+                                <input type="submit" class="btn btn-primary" value="Add">
+                            </td>
+                        </tr>
+                    </form>
+                    {% for hostname in config.http_repo_auth %}
+                        <tr>
+                            <td>{{ hostname }}</td>
+                            <td>{{ config.http_repo_auth[hostname].username }}</td>
+                            <td>{{ config.http_repo_auth[hostname].password }}</td>
+                            <td></td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
         </div>
         <div class="col-sm-6">
             <div class="panel panel-default">

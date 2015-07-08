@@ -4,11 +4,13 @@ import shutil
 
 from flask import redirect, url_for, request, render_template
 import requests
+import urllib.parse
 
 from platform_flask import app
 from platform_flask.models import db, Repository
 from platform_flask import celery
 from platform_flask.routes import get_task_status
+from platform_flask.components.configuration import PlatformConfig
 import yaml
 
 
@@ -18,7 +20,21 @@ def repositories():
         new_label = request.form["label"]
         new_url = request.form["url"]
         new_type = request.form["type"]
-        task_id = git_clone_task.delay(new_label, new_url).task_id
+
+        parts = urllib.parse.urlparse(new_url)
+        new_hostname = parts.netloc
+
+        httpauth = PlatformConfig.get('http_repo_auth', {})
+        if new_hostname in httpauth:
+            parts = list(parts)
+            username = httpauth[new_hostname]['username'].replace('@', '%40')
+            password = httpauth[new_hostname]['username'].replace('@', '%40')
+            parts[1] = "{}:{}@{}".format(username, password, parts[1])
+            new_url_auth = urllib.parse.urlunparse(parts)
+            task_id = git_clone_task.delay(new_label, new_url_auth).task_id
+        else:
+            task_id = git_clone_task.delay(new_label, new_url).task_id
+
         repo = Repository(type=new_type, label=new_label, url=new_url, task=task_id)
         db.session.add(repo)
         db.session.commit()
