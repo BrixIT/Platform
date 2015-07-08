@@ -12,7 +12,8 @@ from celery.task.control import inspect
 def ajax_get_queue():
     labels = {
         'platform_flask.backend_git.git_clone_task': 'Cloning git repository',
-        'platform_flask.instances.create_platform_python27': 'Creating new Python 2.7 platform'
+        'platform_flask.platform.python.create_platform_python27': 'Creating new Python 2.7 platform',
+        'platform_flask.platform.python.create_platform_python34': 'Creating new Python 3.4 platform',
     }
     celery_inspector = inspect()
     active = celery_inspector.active()
