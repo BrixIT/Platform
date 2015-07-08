@@ -30,3 +30,9 @@ def finish_instance_creation(label):
     requests.post("http://127.0.0.1:5000/callback/instance-created", {"label": label})
     Nginx.rebuild()
     call(["systemctl", "restart", "nginx"])
+
+
+def run_extra_tasks(label, extra):
+    if 'bower' in extra and extra['bower']:
+        print("Installing bower dependencies")
+        call(['bower', 'install', '--allow-root'], cwd='/opt/platform/apps/{}/repo'.format(label))

@@ -5,7 +5,8 @@
         <small>{{ repo.url }}</small>
     </h1>
     <form method="post" class="form" action="{{ url_for('instance_new') }}">
-    <input type="hidden" name="source_repo" value="{{ repo.label }}">
+        <input type="hidden" name="source_repo" value="{{ repo.label }}">
+
         <div class="row">
             <div class="col-sm-4">
                 <div class="panel panel-default">
@@ -68,6 +69,12 @@
                         <div class="form-group">
                             <label for="args">Arguments</label>
                             <input type="text" id="args" name="args" class="form-control">
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" value="bower" name="bower">
+                                Run bower install
+                            </label>
                         </div>
                     </div>
                 </div>

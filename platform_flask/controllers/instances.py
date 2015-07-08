@@ -79,6 +79,7 @@ def instance_new():
     port = request.form['port']
     proxy = 'proxy' in request.form
     mountpoint = request.form['mountpoint']
+    run_bower = 'bower' in request.form
 
     source_repo = Repository.query.filter_by(label=source_repo).first()
 
@@ -94,10 +95,14 @@ def instance_new():
     instance.mountpoint = mountpoint
     instance.status = "installing"
 
+    extra = {
+        'bower': run_bower
+    }
+
     if platform == 'python27':
-        task = create_platform_python27.delay(label, source_repo.get_repo_path(), git_ref, entrypoint, args)
+        task = create_platform_python27.delay(label, source_repo.get_repo_path(), git_ref, entrypoint, args, extra)
     elif platform == 'python34':
-        task = create_platform_python34.delay(label, source_repo.get_repo_path(), git_ref, entrypoint, args)
+        task = create_platform_python34.delay(label, source_repo.get_repo_path(), git_ref, entrypoint, args, extra)
 
     instance.task = task.task_id
 
