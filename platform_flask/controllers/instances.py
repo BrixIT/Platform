@@ -2,7 +2,7 @@ import os
 from subprocess import call
 import shutil
 
-from flask import redirect, url_for, request, render_template
+from flask import redirect, url_for, request, render_template, render_template_string
 
 from platform_flask import app
 from platform_flask.models import db, Repository, AppInstance
@@ -80,6 +80,8 @@ def instance_new():
     proxy = 'proxy' in request.form
     mountpoint = request.form['mountpoint']
     run_bower = 'bower' in request.form
+
+    args = render_template_string(args, port=port, mountpoint=mountpoint)
 
     source_repo = Repository.query.filter_by(label=source_repo).first()
 
