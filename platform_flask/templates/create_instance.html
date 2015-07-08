@@ -57,24 +57,53 @@
                         <div class="form-group">
                             <label for="platform">Platform</label>
                             <select id="platform" name="platform" class="form-control">
-                                <option value="python27">Python 2.7</option>
-                                <option value="python34">Python 3.4</option>
-                                <option value="nodejs">Nodejs</option>
+                                <option value="python27"{% if preload.platform == "python27" %}
+                                        selected="selected"{% endif %}>Python 2.7
+                                </option>
+                                <option value="python34"{% if preload.platform == "python34" %}
+                                        selected="selected"{% endif %}>Python 3.4
+                                </option>
+                                <option value="nodejs"{% if preload.platform == "nodejs" %}
+                                        selected="selected"{% endif %}>Nodejs
+                                </option>
                             </select>
+                            {% if "platform" in preload and preload.platform != "" %}
+                                <span class="help-block">
+                                .platform.yml suggests: {{ preload.platform }}
+                            </span>
+                            {% endif %}
                         </div>
                         <div class="form-group">
                             <label for="entrypoint">Entrypoint</label>
-                            <input type="text" id="entrypoint" name="entrypoint" class="form-control">
+                            <input type="text" id="entrypoint" name="entrypoint" class="form-control"
+                                    {% if "entrypoint" in preload %} value="{{ preload.entrypoint }}"{% endif %}>
+                            {% if "entrypoint" in preload %}
+                                <span class="help-block">
+                                .platform.yml suggests: {{ preload.entrypoint }}
+                            </span>
+                            {% endif %}
                         </div>
                         <div class="form-group">
                             <label for="args">Arguments</label>
-                            <input type="text" id="args" name="args" class="form-control">
+                            <input type="text" id="args" name="args" class="form-control"
+                                    {% if "arguments" in preload %} value="{{ preload.arguments }}"{% endif %}>
+                            {% if "arguments" in preload %}
+                                <span class="help-block">
+                                .platform.yml suggests: {{ preload.arguments }}
+                                </span>
+                            {% endif %}
                         </div>
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" value="bower" name="bower">
+                                <input type="checkbox" value="bower" name="bower"
+                                       {% if "bower" in preload %}checked="checked"{% endif %}>
                                 Run bower install
                             </label>
+                            {% if "bower" in preload %}
+                                <span class="help-block">
+                                .platform.yml suggests running bower
+                                </span>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
