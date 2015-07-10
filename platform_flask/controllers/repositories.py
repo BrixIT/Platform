@@ -11,6 +11,7 @@ from platform_flask.models import db, Repository
 from platform_flask import celery
 from platform_flask.routes import get_task_status
 from platform_flask.components.configuration import PlatformConfig
+from platform_flask.components.packages import has_package, get_package
 import yaml
 
 
@@ -69,6 +70,8 @@ def create_instance(id):
     platform_config = {"platform": ""}
     if os.path.isfile("{}/.platform.yml".format(repo.get_repo_path())):
         platform_config = yaml.safe_load(open("{}/.platform.yml".format(repo.get_repo_path())))
+    elif has_package(repo.url):
+        platform_config = get_package(repo.url)
     tags = list(reversed(tags))
     if len(tags) == 1 and tags[0] == '':
         tags = []
