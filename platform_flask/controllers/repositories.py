@@ -67,7 +67,10 @@ def create_instance(id):
     platform_config = {"platform": ""}
     if os.path.isfile("{}/.platform.yml".format(repo.get_repo_path())):
         platform_config = yaml.safe_load(open("{}/.platform.yml".format(repo.get_repo_path())))
-    return render_template('create_instance.html', repo=repo, tags=reversed(tags), branches=branches,
+    tags = list(reversed(tags))
+    if len(tags) == 1 and tags[0] == '':
+        tags = []
+    return render_template('create_instance.html', repo=repo, tags=tags, branches=branches,
                            preload=platform_config)
 
 

@@ -14,13 +14,15 @@
                     <div class="panel-body">
                         <div class="radio">
                             <label>
-                                <input type="radio" name="clonesource" id="clonesource1" value="tag" checked>
+                                <input type="radio" name="clonesource" id="clonesource1" value="tag"
+                                       {% if tags|length > 0 %}checked{% endif %}>
                                 Create app instance from tag
                             </label>
                         </div>
                         <div class="radio">
                             <label>
-                                <input type="radio" name="clonesource" id="clonesource2" value="branch">
+                                <input type="radio" name="clonesource" id="clonesource2" value="branch"
+                                       {% if tags|length == 0 %}checked{% endif %}>
                                 Create app instance from branch
                             </label>
                         </div>
