@@ -2,7 +2,7 @@ import os
 from subprocess import call
 import shutil
 
-from flask import redirect, url_for, request, render_template, render_template_string
+from flask import redirect, url_for, request, render_template, render_template_string, jsonify
 
 from platform_flask import app
 from platform_flask.models import db, Repository, AppInstance
@@ -44,6 +44,19 @@ def instances():
         })
 
     return render_template('instances.html', apps=apps)
+
+
+@app.route('/ajax/get-free-port')
+def get_free_port():
+    port = 42001
+    used_ports = []
+    instances = AppInstance.query.all()
+    for i in instances:
+        used_ports.append(i.port)
+    while True:
+        if port not in used_ports:
+            return jsonify(port=port)
+        port += 1
 
 
 @app.route('/instance/<label>')

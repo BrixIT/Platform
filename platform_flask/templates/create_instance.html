@@ -120,13 +120,18 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">Frontend</div>
                     <div class="panel-body">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" id="autoport"> Use auto assigned port
+                            </label>
+                        </div>
                         <div class="form-group">
                             <label for="port">Application http port</label>
                             <input type="text" id="port" name="port" class="form-control">
                         </div>
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" value="proxy" name="proxy">
+                                <input type="checkbox" value="proxy" name="proxy" checked>
                                 Proxy application to a path on *:80
                             </label>
                         </div>
@@ -147,4 +152,25 @@
 {% endblock %}
 
 {% block scripts %}
+    <script>
+        $(function () {
+            $('#autoport').on('click', function () {
+                var state = $(this).is(':checked');
+                if (state) {
+                    $('#port').prop('disabled', true);
+                    $.get('{{ url_for('get_free_port') }}', function (data) {
+                        $('#port').val(data.port);
+                    })
+                } else {
+                    $('#port').prop('disabled', false);
+                }
+            });
+
+            $('#label').on('change', function () {
+                if ($('#mountpoint').val() == '') {
+                    $('#mountpoint').val($(this).val());
+                }
+            })
+        });
+    </script>
 {% endblock %}
