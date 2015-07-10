@@ -88,7 +88,10 @@ def instance_new():
 
     clone_source = request.form['clonesource']
     branch = request.form['branch']
-    tag = request.form['tag']
+    if "tag" in request.form:
+        tag = request.form['tag']
+    else:
+        tag = ""
 
     if clone_source == 'tag':
         git_ref = tag
@@ -169,3 +172,4 @@ def callback_instance_new():
     instance.status = "installed"
     db.session.add(instance)
     db.session.commit()
+    return ""
