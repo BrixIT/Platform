@@ -80,8 +80,8 @@ def instance_new():
     proxy = 'proxy' in request.form
     mountpoint = request.form['mountpoint']
     run_bower = 'bower' in request.form
-
-    args = render_template_string(args, port=port, mountpoint=mountpoint)
+    datadir = "/opt/platform/apps/{}/data".format(label)
+    args = render_template_string(args, port=port, mountpoint=mountpoint, datadir=datadir)
 
     source_repo = Repository.query.filter_by(label=source_repo).first()
 

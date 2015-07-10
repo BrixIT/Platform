@@ -92,6 +92,12 @@
                                 .platform.yml suggests: {{ preload.arguments }}
                                 </span>
                             {% endif %}
+                            <span class="help-block">
+                                Possible substitutions:<br>
+                                <b>{{ '{{' }} port {{ '}}' }}</b> The port this application should bind<br>
+                                <b>{{ '{{' }} mountpoint {{ '}}' }}</b> The subdir the cgi app should run in<br>
+                                <b>{{ '{{' }} datadir {{ '}}' }}</b> Absolute path for application instance data storage
+                            </span>
                         </div>
                         <div class="checkbox">
                             <label>
