@@ -80,12 +80,6 @@ def backend_git():
     return redirect(url_for('repositories'))
 
 
-@app.route('/instance/test')
-def instance_test():
-    git_clone_instance_task.delay("sabnzbd", "sabnzbd")
-    return redirect(url_for('index'))
-
-
 @app.route('/callback/git-repository-cloned', methods=['POST'])
 def callback_repository_cloned():
     label = request.form['label']
