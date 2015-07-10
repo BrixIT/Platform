@@ -86,7 +86,6 @@ Not in any order:
 - [ ] Add process tree to instance detail page
 - [ ] Add config file support to instances
 - [ ] Bind instance settings to config file settings (automatic port change and mountpoint config)
-- [ ] Implement http://platform.brixit.nl to fetch instance creation settings for popular repo's and add "One click install"
 - [ ] Add CPU/Memory view to instances
 - [ ] Add permissions for more users and instances
 - [ ] Add auth support in reverse proxy
