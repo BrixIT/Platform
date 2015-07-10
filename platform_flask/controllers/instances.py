@@ -11,6 +11,12 @@ from platform_flask.components.nginx import Nginx
 from platform_flask.platform.python import create_platform_python27, create_platform_python34
 
 
+class Bunch(dict):
+    def __init__(self, **kw):
+        dict.__init__(self, kw)
+        self.__dict__ = self
+
+
 @app.route('/instances')
 def instances():
     apps = []
@@ -22,7 +28,11 @@ def instances():
             unit = systemd.load(a.label)
             unit_info = unit.get_status()
             status = unit_info['status']
-        repo = Repository.query.get(a.repository_id)
+        if a.repository_id:
+            repo = Repository.query.get(a.repository_id)
+        else:
+            repo = Bunch()
+            repo.label = 'Deleted repository'
         apps.append({
             'status': status,
             'label': a.label,
