@@ -28,7 +28,7 @@ def repositories():
         if new_hostname in httpauth:
             parts = list(parts)
             username = httpauth[new_hostname]['username'].replace('@', '%40')
-            password = httpauth[new_hostname]['username'].replace('@', '%40')
+            password = httpauth[new_hostname]['password'].replace('@', '%40')
             parts[1] = "{}:{}@{}".format(username, password, parts[1])
             new_url_auth = urllib.parse.urlunparse(parts)
             task_id = git_clone_task.delay(new_label, new_url_auth).task_id
@@ -94,6 +94,7 @@ def callback_repository_cloned():
     repo.task = ""
     db.session.add(repo)
     db.session.commit()
+    return ""
 
 
 @app.route('/repository/remove/<id>')
