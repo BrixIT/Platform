@@ -10,6 +10,7 @@
                         <th>Label</th>
                         <th>Type</th>
                         <th>Source</th>
+                        <th>Git ref</th>
                         <th>Status</th>
                         <th></th>
                     </tr>
@@ -18,12 +19,16 @@
                             <td>{{ repo.repo.label }}</td>
                             <td>{{ repo.repo.type }}</td>
                             <td>{{ repo.repo.url }}</td>
+                            <td>
+                                <code>{{ repo.ref[-10:] }}</code>
+                            </td>
                             <td data-task="{{ repo.repo.task }}">{{ repo.status|safe }}</td>
                             <td class="text-right">
                                 <a href="{{ url_for('create_instance', id=repo.repo.id) }}"
                                    class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="bottom"
                                    title="Create instance"><i class="glyphicon glyphicon-plus"></i></a>
-                                <a href="#" class="btn btn-default btn-sm" data-toggle="tooltip"
+                                <a href="{{ url_for('repository_pull', id=repo.repo.id) }}"
+                                   class="btn btn-default btn-sm" data-toggle="tooltip"
                                    data-placement="bottom" title="Fetch repository updates"><i
                                         class="glyphicon glyphicon-refresh"></i></a>
                                 <a href="{{ url_for('remove_repository', id=repo.repo.id) }}" data-toggle="tooltip"

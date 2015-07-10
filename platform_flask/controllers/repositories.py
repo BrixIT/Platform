@@ -46,9 +46,11 @@ def repositories():
         status = "<i class='glyphicon glyphicon-ok'></i> OK"
         if len(repo.task) > 0:
             status = get_task_status(repo.task)
+        ref = get_git_current_ref(repo.get_repo_path())
         dataset.append({
             "status": status,
-            "repo": repo
+            "repo": repo,
+            "ref": ref
         })
     return render_template('repositories.html', repositories=dataset)
 
@@ -74,12 +76,10 @@ def create_instance(id):
                            preload=platform_config)
 
 
-@app.route('/backend/git')
-def backend_git():
-    task_id = git_clone_task.delay("sabnzbd", "https://github.com/sabnzbd/sabnzbd").task_id
-    repo = Repository(type="git", label="sabnzbd", url="https://github.com/sabnzbd/sabnzbd", task=task_id)
-    db.session.add(repo)
-    db.session.commit()
+@app.route('/repositories/<id>/pull')
+def repository_pull(id):
+    repo = Repository.query.get(id)
+    git_repo_pull.delay(repo.label)
     return redirect(url_for('repositories'))
 
 
@@ -111,7 +111,14 @@ def git_clone_task(label, repository):
         os.rmdir(repo_path)
     call(["git", "clone", repository, repo_path])
     requests.post("http://127.0.0.1:5000/callback/git-repository-cloned", {"label": label})
-    return "cloned!"
+    return get_git_current_ref(repo_path)
+
+
+@celery.task
+def git_repo_pull(label):
+    repo_path = "/opt/platform/repository/{}".format(label)
+    call(["git", "pull"], cwd=repo_path)
+    return get_git_current_ref(repo_path)
 
 
 @celery.task
@@ -125,3 +132,7 @@ def git_clone_instance_task(label, source):
     if not os.path.isdir(source_path):
         return False
     call(["git", "clone", source_path, target_path])
+
+
+def get_git_current_ref(path):
+    return getoutput('git -C {} rev-parse HEAD'.format(path)).strip()
