@@ -18,8 +18,10 @@
                     <td><a href="{{ url_for('instance_detail', label=app.label) }}">{{ app.label }}</a></td>
                     <td>{{ app.repository }}</td>
                     <td>{{ app.platform }}</td>
-                    <td><a href="http://{{ request.host|replace(":5000", "") }}:{{ app.port }}/">{{ app.port }}</a></td>
-                    <td><a href="http://{{ request.host|replace(":5000", "") }}/{{ app.mountpoint }}">/{{ app.mountpoint }}</a></td>
+                    <td><a href="http://{{ request.host|replace(":5000", "") }}:{{ app.port }}/"
+                           target="_blank">{{ app.port }}</a></td>
+                    <td><a href="http://{{ request.host|replace(":5000", "") }}/{{ app.mountpoint }}"
+                           target="_blank">/{{ app.mountpoint }}</a></td>
                     <td>{{ app.status }}</td>
                     <td>
                         <a href="{{ url_for('destroy_instance', id=app.id) }}"
