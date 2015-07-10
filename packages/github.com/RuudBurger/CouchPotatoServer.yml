@@ -1,0 +1,7 @@
+package:
+  name: CouchPotato
+  website: https://couchpota.to/
+  description: Automatic Movie Downloading via NZBs & Torrents
+platform: python27
+entrypoint: CouchPotato.py
+arguments: "--data_dir {{datadir}} --console_log"

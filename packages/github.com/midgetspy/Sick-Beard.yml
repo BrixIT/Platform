@@ -1,0 +1,7 @@
+package:
+  name: Sick Beard
+  website: http://sickbeard.com/
+  description: The ultimate PVR application that searches for and manages your TV shows
+platform: python27
+entrypoint: SickBeard.py
+arguments: "-p {{port}} --datadir {{datadir}}"
