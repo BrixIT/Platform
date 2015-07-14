@@ -1,6 +1,6 @@
 import os
 
-from flask import session, redirect, url_for, request, flash, render_template, jsonify
+from flask import session, redirect, url_for, request, flash, render_template, jsonify, send_from_directory
 
 from platform_flask import app
 from platform_flask import celery as celery_instance
@@ -82,3 +82,8 @@ def get_task_status(task_id):
     if state == "PENDING":
         return "<i class='glyphicon glyphicon-refresh spin'></i> PENDING"
     return state
+
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'),
+                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
