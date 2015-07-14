@@ -3,17 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to the documentation for BrixIT Platform
-================================================
-
-Contents:
-
-.. toctree::
-   :maxdepth: 2
-
-   installation
-   components
-   deploying
+BrixIT Platform
+===============
 
 Platform is a collection of components working together to make deploying (web)applications in various languages easier.
 It currently supports applications written in Python 2 and Python 3 with every application running in a virtualenv, deployed
@@ -30,3 +21,12 @@ to the application. It will also support managing the application instance confi
 that most of this configuration is automatic.
 
 .. _README.md: https://github.com/BrixIT/Platform/blob/master/README.md
+
+Contents:
+
+.. toctree::
+   :maxdepth: 2
+
+   installation
+   components
+   deploying
