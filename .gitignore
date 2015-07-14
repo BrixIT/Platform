@@ -1,3 +1,4 @@
 .idea/
 platform_flask/static/vendor/
 platform.db
+/docs/_build
