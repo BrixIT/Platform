@@ -31,7 +31,7 @@ The last section is Frontend. This is the Nginx configuration for the instance. 
 will use the first available port after 42000 to listen for the application. If you used {{port}} in the instance argument
 it will automatically be filled with this port. It is also possible to enter another port in the Application http port box.
 
-If you check "Proxy application to a path on *:80" then Platform will create an entry in Nginx to reverse proxy
+If you check "Proxy application to a path on \*:80" then Platform will create an entry in Nginx to reverse proxy
 ``http://<server-ip>/<mountpoint>`` to ``http://127.0.0.1:<application-port>/<mountpoint>``. The mountpoint is defined in the input
 box below.
 
