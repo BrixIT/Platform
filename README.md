@@ -17,26 +17,7 @@ webapplications to port 80 in a subdirectory.
 
 # Installing
 
-Platform will ultimatly be a customised Debian iso that will do this for you. For now, install:
-
-- nginx
-- python2.7
-- python3.4
-- rabbitmq
-- mysql-server
-- celery (python module)
-- git
-
-and clone this repository to `/opt/platform`.
-
-To start the components copy `platformweb.service` and `platformworker.service` to `/etc/systemd/system` and run:
-
-```bash
-$ systemctl enable platformweb
-$ systemctl enable platformworker
-```
-
-Please not that this install guide is not complete.
+The install documentation is on [platform.brixit.nl](http://platform.brixit.nl)
 
 # Running
 
