@@ -13,6 +13,7 @@ Contents:
 
    installation
    components
+   deploying
 
 Platform is a collection of components working together to make deploying (web)applications in various languages easier.
 It currently supports applications written in Python 2 and Python 3 with every application running in a virtualenv, deployed
