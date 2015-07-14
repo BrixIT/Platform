@@ -2,6 +2,12 @@ package:
   name: SABnzbd
   website: http://sabnzbd.org/
   description: The automated Usenet download tool
+dependencies:
+  apt:
+    par2
+    unzip
+    unrar
+    zip
 platform: python27
 entrypoint: SABnzbd.py
 arguments: "-s 0.0.0.0:{{port}} -b 0"
