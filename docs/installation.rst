@@ -17,7 +17,7 @@ Installation on Debian 8
 
 First install the dependencies::
 
-   $ apt-get install git python3 python3-pip nginx mysql-server
+   $ apt-get install git python3 python3-pip nginx mysql-server postfix
 
 The rest of the requirements are all python modules. Set the mysql login to root:platform when asked.
 Now create the mysql database used for Platform::
@@ -65,3 +65,31 @@ Platform itself is only two systemd units. Enable them and start them::
    $ systemctl start platformweb
    $ systemctl start platformworker
 
+
+Basic configuration
+-------------------
+
+There are some global configuration settings that are smart to configure. The most important one is the SMTP config.
+
+Go to the global configuration in the webinterface (Dropdown under your username in the header) and fill in the SMTP settings:
+
+**hostname** is the name or ip of your mail relay server
+
+**port** is the port of the relay server (defaults to 25, might be 587 or 465)
+
+**use tls** enables SSL/TLS encryption, use only of your provider supports it. This is mostly used when your provider uses
+port 465 for SMTP.
+
+**use auth** needs to be checked when the mail relay server requires an username and password
+
+**username** and **password** are the login settings for the mail relay
+
+For using your Gmail account to send the emails you enter the following settings:
+
+**hostname**: smtp.gmail.com
+
+**port**: 465
+
+**use tls** and **use auth** needs to be checked
+
+**username** and **password** are the login for your Gmail account.
