@@ -78,7 +78,7 @@ Go to the global configuration in the webinterface (Dropdown under your username
 **port** is the port of the relay server (defaults to 25, might be 587 or 465)
 
 **use tls** enables SSL/TLS encryption, use only of your provider supports it. This is mostly used when your provider uses
-port 465 for SMTP.
+port 465 or 587 for SMTP.
 
 **use auth** needs to be checked when the mail relay server requires an username and password
 
@@ -88,7 +88,7 @@ For using your Gmail account to send the emails you enter the following settings
 
 **hostname**: smtp.gmail.com
 
-**port**: 465
+**port**: 587
 
 **use tls** and **use auth** needs to be checked
 

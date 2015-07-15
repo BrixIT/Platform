@@ -15,7 +15,15 @@ class MailRelay:
         })
         relayhost = self._generate_postfix_relayhost(smtp_config)
         tls = 'yes' if smtp_config['ssl'] else 'no'
-        postfix_config = render_template('main.cf', relayhost=relayhost, tls=tls)
+        auth = 'yes' if smtp_config['auth'] else 'no'
+        postfix_config = render_template('main.cf', relayhost=relayhost, tls=tls, auth=auth,
+                                         use_auth=smtp_config['auth'])
+
+        if smtp_config['auth']:
+            with open('/etc/postfix/sasl_passwd', 'w') as password_file:
+                password_file.write("{} {}:{}\n".format(relayhost, smtp_config['username'], smtp_config['password']))
+            call(['postmap', '/etc/postfix/sasl_passwd'])
+
         with open('/etc/postfix/main.cf', 'w') as postfix_configfile:
             postfix_configfile.write(postfix_config)
         call(['systemctl', 'reload', 'postfix'])
