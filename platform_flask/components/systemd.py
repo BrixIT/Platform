@@ -21,7 +21,10 @@ class Systemd:
         return units
 
     def load(self, name):
-        filename = "/etc/systemd/system/platform-{}.service".format(name)
+        return self.get_non_platform('platform-{}'.format(name))
+
+    def get_non_platform(self, name):
+        filename = "/etc/systemd/system/{}.service".format(name)
         unit = SystemdUnit()
         unit.load_unit(filename)
         return unit
